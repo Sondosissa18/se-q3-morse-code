@@ -16,22 +16,28 @@ import re
 
 
 def decode_bits(bits):
+    # remove leading 0's
     bits = bits.strip("0")
+    # decode bits to morse code
+    # find the least amount of occurrences of either a 0 or 1.
     time_unit = min([len(g) for g in re.findall(r"1+|0+", bits)])
     morse_code_pits = bits.replace("0000000"*time_unit, "   ")
     morse_code_pits = morse_code_pits.replace("000"*time_unit, " ")
     morse_code_pits = morse_code_pits.replace("111"*time_unit, "-")
     morse_code_pits = morse_code_pits.replace("1"*time_unit, ".")
     morse_code_pits = morse_code_pits.replace("0"*time_unit, "")
+    # will go through the bits and translate it to morse
     return morse_code_pits
 
 
 def decode_morse(morse):
     code = ''
+    # strip extra spaces
     for word in morse.strip().split("   "):
         for char in word.split(" "):
             code += MORSE_2_ASCII[char]
         code += " "
+    # decode morse code to letters
     return code.strip()
 
 
